@@ -1,0 +1,37 @@
+{
+   "name": "crud-api-nodejs",
+   "version": "1.0.0",
+   "description": "[위코드 x 원티드] 백엔드 프리온보딩 선발 과제]",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "ts-node src/app.ts"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/earthkingman/CRUD-API-NodeJS.git"
+   },
+   "author": "",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/earthkingman/CRUD-API-NodeJS/issues"
+   },
+   "homepage": "https://github.com/earthkingman/CRUD-API-NodeJS#readme",
+   "devDependencies": {
+      "@types/node": "^8.0.29",
+      "nodemon": "^2.0.13",
+      "ts-node": "3.3.0",
+      "typescript": "3.3.3333"
+   },
+   "dependencies": {
+      "@types/express": "^4.17.13",
+      "@types/node": "^16.11.1",
+      "dotenv": "^10.0.0",
+      "express": "^4.17.1",
+      "mysql": "^2.14.1",
+      "reflect-metadata": "^0.1.10",
+      "tsc-watch": "^4.5.0",
+      "typeorm": "0.2.38",
+      "typescript": "^4.4.4"
+   }
+}
