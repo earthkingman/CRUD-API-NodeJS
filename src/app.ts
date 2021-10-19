@@ -1,5 +1,5 @@
 import "reflect-metadata";
-//import { createConnection } from "typeorm";
+import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 import express from "express";
 dotenv.config();
@@ -16,6 +16,6 @@ const corsOptions = {
 
 app.listen(5000, async () => {
   console.log("서버 가동");
-  //await createConnection();
+  await createConnection();
   console.log("DB 연결");
 });
