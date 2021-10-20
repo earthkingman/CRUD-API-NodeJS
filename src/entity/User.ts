@@ -4,21 +4,21 @@ import {Post} from "../entity/Post"
 export class User {
 
     @PrimaryGeneratedColumn("increment")
-     id: number;
+    id: number;
 
     @Column()
-     email: string;
+    email: string;
   
     @Column()
-     password: string;
+    password: string;
 
     @OneToMany(() => Post, post => post.user)
     post: Post[];
 
     @CreateDateColumn()
-     created_at: Date;
+    created_at: Date;
 
     @UpdateDateColumn()
-     updated_at: Date;
+    updated_at: Date;
 
 }
