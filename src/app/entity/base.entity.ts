@@ -2,7 +2,7 @@ import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity 
 
 export abstract class Base extends BaseEntity {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("increment")
     public id: number;
 
     @CreateDateColumn()

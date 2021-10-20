@@ -8,4 +8,8 @@ router.post('/signup', async (request: Request, response: Response, next: NextFu
     await controller.signup(request, response, next);
 });
 
+router.post('/login', async (request: Request, response: Response, next: NextFunction) => {
+    await controller.login(request, response, next);
+});
+
 export const authRouter: Router = router;
