@@ -5,17 +5,16 @@ dotenv.config();
 
 const secret = process.env.TOKEN_SECRET_KEY;
 
-const accessSign = (user) => {
-    console.log(process.env.TOKEN_SECRET_KEY);
+const accessSign: jwt = (user: User) => {
     const payload = {
         id: user.id,
     };
     return jwt.sign(payload, secret, {
-        expiresIn: "5m",
+        expiresIn: "0",
     });
 }
 
-const accessVerify = (access_token) => {
+const accessVerify = (access_token: string) => {
     let decoded = null;
     try {
         decoded = jwt.verify(access_token, secret);
@@ -38,10 +37,7 @@ const refreshSign = () => {
 }
 
 const refreshVerify = async (refresh_token, userId) => {
-    const exUser: User = await User.createQueryBuilder("user")
-        .where('user.id = :userId', { userId })
-        .leftJoinAndSelect("user.token", "token")
-        .getOne();
+    const exUser: User = await User.findOne({ id: userId })
     try {
         if (refresh_token === exUser.token) {
             try {

@@ -12,9 +12,9 @@ export default () => {
                 usernameField: "email",
                 passwordField: "password",
             },
-            async (email: string, password: string, done) => {
+            async (email, password, done) => {
                 try {
-                    const exUser = await User.findOne({ email: email });
+                    const exUser = await User.findOne({ email });
                     if (exUser) {
                         const result = await bcrypt.compare(password, exUser.password);
                         if (result) {

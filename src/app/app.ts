@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import express, { Express } from "express";
 import bodyParser from 'body-parser';
 import { applicationRouter } from './routes/applicationRouter';
+import cookieParser from "cookie-parser";
 import passport from "passport";
 import passportConfig from "./passport";
 passportConfig();
@@ -19,8 +20,8 @@ export class Application {
     this._server.use(passport.initialize());
     this._server.use(bodyParser.json());
     this._server.use(bodyParser.urlencoded({ extended: true }));
+    this._server.use(cookieParser());
     this._server.use(applicationRouter);
-
   }
 
   public startServer(): void {
