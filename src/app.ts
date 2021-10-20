@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import dotenv from "dotenv";
 import express from "express";
+import { User } from "./entity/user";
 dotenv.config();
 
 const app = express();
@@ -16,7 +17,6 @@ const corsOptions = {
 
 app.listen(5000, async () => {
   console.log("서버 가동");
-  createConnection().then(async () => {
-    console.log("DB 연결");
+  createConnection().then(async (connection) => {
   });
 });

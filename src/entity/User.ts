@@ -1,18 +1,24 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
-
+import {Entity, PrimaryGeneratedColumn, Column,CreateDateColumn, UpdateDateColumn,OneToMany} from "typeorm";
+import {Post} from "../entity/Post"
 @Entity()
 export class User {
 
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn("increment")
     id: number;
 
     @Column()
-    firstName: string;
-
+    email: string;
+  
     @Column()
-    lastName: string;
+    password: string;
 
-    @Column()
-    age: number;
+    @OneToMany(() => Post, post => post.user)
+    post: Post[];
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 
 }
