@@ -3,15 +3,16 @@ dotenv.config();
 
 export = {
   type: "sqlite",
-  database: ":memory:",
+  database: "database.sqlite",
+  //database: ":memory:",
   synchronize: true,
-  logging: true,
-  entities: ["src/entity/**/*.ts"],
-  migrations: ["src/migration/**/*.ts"],
-  subscribers: ["src/subscriber/**/*.ts"],
+  logging: false,
+  entities: ["src/app/entity/**/*.ts"],
+  migrations: ["src/app/migration/**/*.ts"],
+  subscribers: ["src/app/subscriber/**/*.ts"],
   cli: {
-    entitiesDir: "src/entity",
-    migrationsDir: "src/migration",
-    subscribersDir: "src/subscriber",
+    entitiesDir: "src/app/entity",
+    migrationsDir: "src/app/migration",
+    subscribersDir: "src/app/subscriber",
   },
 };
