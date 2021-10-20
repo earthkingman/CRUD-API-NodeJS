@@ -10,7 +10,7 @@ export class Post {
     title: string;
   
     @Column()
-    password: string;
+    text: string;
 
     @ManyToOne(() => User, user => user.post, { onDelete: 'CASCADE' })
     user: User;
