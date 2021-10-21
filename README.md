@@ -1,6 +1,6 @@
 # CRUD-API-NodeJS
 
-### 1. 개발환경
+### 1. 프로젝트 구조
 - 기본 환경
   - IDE : VsCode 
   - OS : MAC
@@ -9,6 +9,7 @@
   - NodeJS
   - Express
   - TypeScript
+  - TypeORM
 - 데이터베이스
   - SQLite 
 ### 2. 디렉토리 구조
