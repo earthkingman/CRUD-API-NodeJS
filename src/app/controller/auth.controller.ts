@@ -59,7 +59,7 @@ export class AuthController {
     }
 
     public async refresh(req: Request, res: Response, next: NextFunction): Promise<any> {
-        const refresh_token = req.cookies.authorization;;
+        const refresh_token = req.cookies.refresh;
         const access_token = req.cookies.authorization;
         if (refresh_token && access_token) {
             const authResult = jwtUtil.accessVerify(access_token);
