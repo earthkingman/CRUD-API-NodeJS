@@ -44,18 +44,22 @@ export class AuthController {
             const exUser: User = await User.findOne({ id: userId.id });
             exUser.token = refreshToken;
             await exUser.save();
+            res.cookie("refresh", refreshToken, {
+                maxAge: 60000 * 60 * 24 * 14,
+                httpOnly: true,
+            });
             res.cookie("authorization", accessToken, {
                 maxAge: 60000 * 30,
                 httpOnly: true,
             });
             return res.status(200).json({
-                refreshToken: refreshToken,
+                message: "로그인 성공 쿠키에 refreshToken, accessToken 저장 ",
             });
         })(req, res, next);
     }
 
     public async refresh(req: Request, res: Response, next: NextFunction): Promise<any> {
-        const refresh_token = req.headers['refresh'] || req.query.refreshToken;
+        const refresh_token = req.cookies.authorization;;
         const access_token = req.cookies.authorization;
         if (refresh_token && access_token) {
             const authResult = jwtUtil.accessVerify(access_token);
