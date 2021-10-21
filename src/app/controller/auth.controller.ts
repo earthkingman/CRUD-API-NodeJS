@@ -76,8 +76,8 @@ export class AuthController {
                 }
                 else {
                     const newAccesToken = jwtUtil.accessSign(decoded);
-                    res.cookie('accessToken', newAccesToken, {
-                        maxAge: 300000,
+                    res.cookie('authorization', newAccesToken, {
+                        maxAge: 60000 * 30,
                         httpOnly: true
                     });
                     res.status(200).json({
