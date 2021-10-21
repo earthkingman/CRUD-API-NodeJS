@@ -7,6 +7,7 @@ export class PostController {
 
     public async get(req: Request, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        console.log(req.query.id);
         try {
             const exPost = await Post.findOne({ id: postId });
             console.log(exPost);
