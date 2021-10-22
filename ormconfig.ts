@@ -4,9 +4,9 @@ dotenv.config();
 export = {
   type: "sqlite",
   database: "database.sqlite",
-  //database: ":memory:",
+  // database: ":memory:",
   synchronize: true,
-  logging: false,
+  logging: true,
   entities: ["src/app/entity/**/*.ts"],
   migrations: ["src/app/migration/**/*.ts"],
   subscribers: ["src/app/subscriber/**/*.ts"],

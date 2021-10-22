@@ -7,6 +7,9 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     await controller.page(req, res, next);
 });
 
+router.get('/test', async (req: Request, res: Response, next: NextFunction) => {
+    return (res.status(200).json("1"))
+});
 
 
 export const pageRouter: Router = router;

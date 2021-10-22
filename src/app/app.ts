@@ -24,6 +24,10 @@ export class Application {
     this._server.use(applicationRouter);
   }
 
+  public getServer(): Express {
+    return this._server;
+  }
+
   public startServer(): void {
     const host: string = this._server.get('host');
     const port: number = this._server.get('port');
