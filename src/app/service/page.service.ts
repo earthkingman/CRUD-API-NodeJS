@@ -11,7 +11,7 @@ export class PageService {
         this.postRepository = this.queryRunner.manager.getRepository(Post);
     }
 
-    async getQuestionList(pageInfo) {
+    async getPostList(pageInfo) {
         const postList = await this.queryRunner.manager
         this.postRepository
             .createQueryBuilder('post')

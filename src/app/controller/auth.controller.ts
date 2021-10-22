@@ -11,10 +11,11 @@ export class AuthController {
     private userService: UserService;
 
     public async signup(req: Request, res: Response, next: NextFunction): Promise<any> {
+        this.userService = new UserService();
         const { email, password } = req.body;
         const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
         try {
-            const { exUser, newUser } = await this.userService.createUser({ email, password: encryptedPassword });
+            const { exUser, newUser } = await this.userService.createUser({ email: email, password: encryptedPassword });
             if (exUser) {
                 return res.status(400).json({
                     result: false,
@@ -44,12 +45,13 @@ export class AuthController {
 
     public async login(req: Request, res: Response, next: NextFunction): Promise<any> {
         passport.authenticate("local", async (authError, userId, info) => {
+            this.userService = new UserService();
             if (authError || userId == false) {
                 return res.status(400).json({ message: info.message });
             }
             const accessToken = jwtUtil.accessSign(userId);
             const refreshToken = jwtUtil.refreshSign();
-            const userInfo = { userId, refreshToken }
+            const userInfo = { userId, refreshToken: refreshToken }
             await this.userService.loginRefreshToken(userInfo)
             res.cookie("refresh", refreshToken, {
                 maxAge: 60000 * 60 * 24 * 14,

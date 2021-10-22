@@ -8,6 +8,7 @@ export class PostController {
 
     public async get(req: Request, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        this.postService = new PostService();
         console.log(req.query.id);
         try {
             const exPost = await this.postService.selectPost({ id: postId });
@@ -23,6 +24,7 @@ export class PostController {
     }
     public async post(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const userId: number = req.decodedId;
+        this.postService = new PostService();
         const { title, text } = req.body;
         try {
             const postInfo = { userId, text, title }
@@ -44,6 +46,7 @@ export class PostController {
     public async delete(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
         const userId: number = req.decodedId;
+        this.postService = new PostService();
         try {
             const postInfo = { userId, postId };
             const exPost = await this.postService.deletePost({ id: postId });
@@ -60,6 +63,7 @@ export class PostController {
     }
     public async patch(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        this.postService = new PostService();
         const { text, title } = req.body;
         try {
             const postInfo = { postId, text, title }

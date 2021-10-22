@@ -3,7 +3,7 @@ import Strategy from "passport-local";
 const LocalStrategy = Strategy;
 import bcrypt from "bcrypt";
 
-import { User } from "../entity/user";
+import { UserService } from "../service/user.service";
 
 export default () => {
     passport.use(
@@ -12,9 +12,10 @@ export default () => {
                 usernameField: "email",
                 passwordField: "password",
             },
-            async (email, password, done) => {
+            async (email: string, password: string, done) => {
                 try {
-                    const exUser = await User.findOne({ email });
+                    const User = new UserService();
+                    const exUser = await User.findUserByEmail(email);
                     if (exUser) {
                         const result = await bcrypt.compare(password, exUser.password);
                         if (result) {
