@@ -8,8 +8,8 @@ export class PostController {
 
     public async get(req: Request, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        console.log(postId);
         this.postService = new PostService();
-        console.log(req.query.id);
         try {
             const exPost = await this.postService.selectPost({ id: postId });
             return res.status(200).json({
@@ -63,10 +63,11 @@ export class PostController {
     }
     public async patch(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        const userId: number = req.decodedId;
         this.postService = new PostService();
         const { text, title } = req.body;
         try {
-            const postInfo = { postId, text, title }
+            const postInfo = { postId, text, title, userId }
             const exPost = await this.postService.updatePost(postInfo);
             return res.status(200).json({
                 result: true,

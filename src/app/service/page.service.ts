@@ -12,19 +12,19 @@ export class PageService {
     }
 
     async getPostList(pageInfo) {
-        const postList = await this.queryRunner.manager
-        this.postRepository
-            .createQueryBuilder('post')
-            .select(['post', 'user.email'])
-            .innerJoin('post.user', 'user')
-            .orderBy('post.id', 'DESC')
-            .limit(pageInfo.limit)
-            .offset(pageInfo.offset)
-            .disableEscaping()
-            .getMany()
-        const postCount = await this.queryRunner.manager
-            .getRepository(Post)
-            .count();
+        const postList = await
+            this.postRepository
+                .createQueryBuilder('post')
+                .select(['post', 'user.email'])
+                .innerJoin('post.user', 'user')
+                .orderBy('post.id', 'DESC')
+                .limit(pageInfo.limit)
+                .offset(pageInfo.offset)
+                .disableEscaping()
+                .getMany()
+        const postCount = await
+            this.postRepository
+                .count();
         return { postList, postCount };
     }
 

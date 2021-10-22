@@ -18,7 +18,7 @@ export class PostService {
 
     async selectPost(postId): Promise<any> {
         const post = await this.postRepository
-            .findOne({ id: postId });
+            .findOne({ where: { id: postId.id } });
         if (post === undefined) {
             throw new Error("The post doesn't exist.");
         } else {
@@ -29,7 +29,7 @@ export class PostService {
     async uploadPost(postInfo): Promise<any> {
         const { userId, text, title } = postInfo
         const user = await this.userRepository
-            .findOne({ where: { id: userId } });
+            .findOne({ where: { id: userId.id } });
         if (user === undefined) {
             throw new Error("The user doesn't exist.");
         }
@@ -49,7 +49,7 @@ export class PostService {
 
     async updatePost(updateQuestionInfo): Promise<any> {
         const { title, text, postId, userId } = updateQuestionInfo;
-
+        console.log(title, text, postId, userId)
         const question = await this.postRepository
             .findOne({
                 where: { id: postId, user: { id: userId } },
