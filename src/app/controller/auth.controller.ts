@@ -37,7 +37,7 @@ export class AuthController {
     public async login(req: Request, res: Response, next: NextFunction): Promise<any> {
         passport.authenticate("local", async (authError, userId, info) => {
             if (authError || userId == false) {
-                return res.status(400).json({ message: info.message });
+                return res.status(400).json({ message: info });
             }
             const accessToken = jwtUtil.accessSign(userId);
             const refreshToken = jwtUtil.refreshSign();

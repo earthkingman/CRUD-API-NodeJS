@@ -19,6 +19,24 @@ export class User extends Base {
     @OneToMany(() => Post, post => post.user)
     post: Post[];
 
+    async signup(email, password) {
+        try {
+            const exUser: User = await User.findOne({ email });
+
+            if (exUser) {
+                return exUser
+            }
+            else {
+                const user = await User.create({ email, password });
+                await user.save();
+                return user;
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
 
     @BeforeInsert()
     async savePassword() {
