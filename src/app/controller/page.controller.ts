@@ -1,28 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { Post } from '../entity/post';
+import { PageService } from "../service/page.service"
 
 export class PageController {
-
+    private userService: PageService;
     public async page(req: Request, res: Response, next: NextFunction): Promise<any> {
         const limit = Number(req.query.limit);
         const offset = Number(req.query.offset);
-
+        const pageInfo = { limit, offset }
         try {
-            const postList = await Post
-                .createQueryBuilder('post')
-                .select(['post', 'user.email'])
-                .innerJoin('post.user', 'user')
-                .orderBy('post.id', 'DESC')
-                .limit(limit)
-                .offset(offset)
-                .disableEscaping()
-                .getMany()
-            const count = await Post
-                .count();
-            console.log(postList);
+            const postList = await this.userService.getQuestionList(pageInfo);
             return res.status(200).json({
-                list: postList,
-                count: count
+                list: postList.postList,
+                count: postList.postCount
             });
         }
         catch (error) {

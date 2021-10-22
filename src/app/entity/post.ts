@@ -12,4 +12,6 @@ export class Post extends Base {
 
     @ManyToOne(() => User, user => user.post, { onDelete: 'CASCADE' })
     user: User;
+
+
 }
