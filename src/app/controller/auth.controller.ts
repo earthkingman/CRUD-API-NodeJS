@@ -2,14 +2,19 @@ import { Request, Response, NextFunction } from 'express';
 import { User } from '../entity/user';
 import { jwtUtil } from "../jwt-util/jwt-utils";
 import jwt from 'jsonwebtoken';
-import passport from "passport"
+import dotenv from "dotenv";
+import passport from "passport";
+import bcrypt from "bcrypt";
+import { UserService } from "../service/user.service";
+dotenv.config();
 export class AuthController {
+    private userService: UserService;
 
     public async signup(req: Request, res: Response, next: NextFunction): Promise<any> {
         const { email, password } = req.body;
+        const encryptedPassword = await bcrypt.hashSync(password, +process.env.SALT_ROUNDS);
         try {
-            const exUser: User = await User.findOne({ email });
-
+            const { exUser, newUser } = await this.userService.createUser({ email, password: encryptedPassword });
             if (exUser) {
                 return res.status(400).json({
                     result: false,
@@ -17,10 +22,13 @@ export class AuthController {
                 });
             }
             else {
-                const user = await User.create({ email, password });
-                await user.save();
-                return res.status(200).json({
+                const userInfo = {
+                    id: newUser.id,
+                    email: newUser.email
+                }
+                res.status(200).json({
                     result: true,
+                    userInfo: userInfo,
                     message: "signup successful",
                 });
             }
@@ -41,9 +49,8 @@ export class AuthController {
             }
             const accessToken = jwtUtil.accessSign(userId);
             const refreshToken = jwtUtil.refreshSign();
-            const exUser: User = await User.findOne({ id: userId.id });
-            exUser.token = refreshToken;
-            await exUser.save();
+            const userInfo = { userId, refreshToken }
+            await this.userService.loginRefreshToken(userInfo)
             res.cookie("refresh", refreshToken, {
                 maxAge: 60000 * 60 * 24 * 14,
                 httpOnly: true,
