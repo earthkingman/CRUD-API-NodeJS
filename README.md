@@ -33,5 +33,10 @@
 │── package-lock.json
 └── tsconfig.json 
 ``` 
-### 3. 빌드 및 실행
-1. npm start
+### 3. 빌드 및 실행 방법
+1. npm i
+2. npm run api-docs
+3. npm start
+4. localhost:5000/api-docs
+
+
