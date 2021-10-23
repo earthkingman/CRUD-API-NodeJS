@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import { User } from "../entity/user"
+import { UserService } from "../service/user.service"
 dotenv.config();
 
 const secret = process.env.TOKEN_SECRET_KEY;
 
-const accessSign: jwt = (user: User) => {
+const accessSign: jwt = (user) => {
     const payload = {
         id: user.id,
     };
@@ -37,7 +37,8 @@ const refreshSign = () => {
 }
 
 const refreshVerify = async (refresh_token, userId) => {
-    const exUser: User = await User.findOne({ id: userId })
+    const userService = new UserService();
+    const exUser = await userService.findUserById(userId);
     try {
         if (refresh_token === exUser.token) {
             try {

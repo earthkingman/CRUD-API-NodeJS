@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import { DecodedRequest } from '../definition/decoded_jwt'
-import { Post } from '../entity/post';
-import { User } from '../entity/user';
+import { PostService } from "../service/post.service";
 
 export class PostController {
 
+    private postService: PostService;
+
     public async get(req: Request, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
-        console.log(req.query.id);
+        console.log(postId);
+        this.postService = new PostService();
         try {
-            const exPost = await Post.findOne({ id: postId });
-            console.log(exPost);
+            const exPost = await this.postService.selectPost({ id: postId });
             return res.status(200).json({
                 data: exPost
             })
@@ -23,11 +24,11 @@ export class PostController {
     }
     public async post(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const userId: number = req.decodedId;
+        this.postService = new PostService();
         const { title, text } = req.body;
         try {
-            const exUser = await User.findOne({ id: userId });
-            const post = await Post.create({ title: title, text: text, user: exUser });
-            await post.save();
+            const postInfo = { userId, text, title }
+            await this.postService.uploadPost(postInfo);
             return res.status(200).json({
                 result: true,
                 message: "Upload Success"
@@ -44,8 +45,11 @@ export class PostController {
 
     public async delete(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        const userId: number = req.decodedId;
+        this.postService = new PostService();
         try {
-            const exPost = await Post.delete({ id: postId });
+            const postInfo = { userId, postId };
+            const exPost = await this.postService.deletePost({ id: postId });
             return res.status(200).json({
                 result: true,
                 message: "Delete Success"
@@ -59,12 +63,12 @@ export class PostController {
     }
     public async patch(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
         const postId: number = Number(req.params.id);
+        const userId: number = req.decodedId;
+        this.postService = new PostService();
         const { text, title } = req.body;
         try {
-            const exPost = await Post.findOne({ id: postId });
-            exPost.text = text || exPost.text;
-            exPost.title = title || exPost.title;
-            await exPost.save();
+            const postInfo = { postId, text, title, userId }
+            const exPost = await this.postService.updatePost(postInfo);
             return res.status(200).json({
                 result: true,
                 message: "Update Success"

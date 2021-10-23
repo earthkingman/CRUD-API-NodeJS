@@ -18,13 +18,4 @@ export class User extends Base {
 
     @OneToMany(() => Post, post => post.user)
     post: Post[];
-
-
-    @BeforeInsert()
-    async savePassword() {
-        if (this.password) {
-            const hashedPassword = await bcrypt.hashSync(this.password, +process.env.SALT_ROUNDS);
-            this.password = hashedPassword;
-        }
-    }
 }
