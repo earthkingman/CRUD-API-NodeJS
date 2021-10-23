@@ -150,14 +150,14 @@ paths:
           description: Post doesn't exist
 
     post:
-      summary: 게시글을 생성합니다.
+      summary: 게시글을 작성합니다.
       tags:
         - post
       requestBody:
         $ref: "#/components/requestBodies/createPost"
       responses:
         "200":
-          description: 게시글 요청 성공
+          description: 게시글 작성 성공
           content:
             application/json:
               schema:
@@ -182,6 +182,10 @@ paths:
                 $ref: "#/components/schemas/Post"
         "404":
           description: Post doesn't exist 
+        "401":
+          description: jwt must be provided 
+        "404":
+          description: You don't have edit permission
 
 
     delete:
@@ -203,6 +207,8 @@ paths:
           description: jwt must be provided 
         "404":
           description: Post doesn't exist
+        "404":
+          description: You don't have edit permission
 
 
   /auth/signup:
