@@ -28,8 +28,9 @@ export class PostService {
 
     async uploadPost(postInfo): Promise<any> {
         const { userId, text, title } = postInfo
+        console.log(userId);
         const user = await this.userRepository
-            .findOne({ where: { id: userId.id } });
+            .findOne({ where: { id: userId } });
         if (user === undefined) {
             throw new Error("The user doesn't exist.");
         }

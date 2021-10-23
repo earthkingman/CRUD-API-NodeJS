@@ -7,7 +7,7 @@ export class PostController {
     private postService: PostService;
 
     public async get(req: Request, res: Response, next: NextFunction): Promise<any> {
-        const postId: number = Number(req.params.id);
+        const postId: number = Number(req.query.id);
         console.log(postId);
         this.postService = new PostService();
         try {
@@ -44,12 +44,12 @@ export class PostController {
     }
 
     public async delete(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
-        const postId: number = Number(req.params.id);
+        const postId: number = Number(req.query.id);
         const userId: number = req.decodedId;
         this.postService = new PostService();
         try {
             const postInfo = { userId, postId };
-            const exPost = await this.postService.deletePost({ id: postId });
+            const exPost = await this.postService.deletePost(postInfo);
             return res.status(200).json({
                 result: true,
                 message: "Delete Success"
@@ -62,7 +62,7 @@ export class PostController {
         }
     }
     public async patch(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
-        const postId: number = Number(req.params.id);
+        const postId: number = Number(req.query.id);
         const userId: number = req.decodedId;
         this.postService = new PostService();
         const { text, title } = req.body;
