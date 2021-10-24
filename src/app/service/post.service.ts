@@ -1,7 +1,8 @@
 
 import { getConnection, QueryRunner, Repository } from "typeorm";
-
-
+import { PostNotFoundException } from '../exception/post_not_found_exception';
+import { PermissionException } from '../exception/permission_exception';
+import { UserNotFoundException } from '../exception/user_not_found_exception'
 import { Post } from "../entity/post";
 import { User } from "../entity/user";
 
@@ -20,7 +21,7 @@ export class PostService {
         const post = await this.postRepository
             .findOne({ where: { id: postId.id } });
         if (post === undefined) {
-            throw new Error("The post doesn't exist.");
+            throw new PostNotFoundException(String(postId));
         } else {
             return post;
         }
@@ -32,7 +33,7 @@ export class PostService {
         const user = await this.userRepository
             .findOne({ where: { id: userId } });
         if (user === undefined) {
-            throw new Error("The user doesn't exist.");
+            throw new UserNotFoundException(String(userId));
         }
         await this.queryRunner.startTransaction();
         try {
@@ -60,10 +61,10 @@ export class PostService {
             const noAuthQuestion = await this.postRepository
                 .findOne({ where: { id: postId } });
             if (noAuthQuestion !== undefined) {
-                throw new Error("You don't have edit permission");
+                throw new PermissionException(String(postId));
             }
             else {
-                throw new Error("The questionPost doesn't exist.");
+                throw new PostNotFoundException(String(postId));
             }
         }
         await this.queryRunner.startTransaction();
@@ -92,10 +93,10 @@ export class PostService {
             const noAuthQuestion = await this.postRepository
                 .findOne({ where: { id: postId } });
             if (noAuthQuestion !== undefined) {
-                throw new Error("You don't have edit permission");
+                throw new PermissionException(String(postId));
             }
             else {
-                throw new Error("The questionPost doesn't exist.");
+                throw new PostNotFoundException(String(postId));
             }
         }
         await this.queryRunner.startTransaction();

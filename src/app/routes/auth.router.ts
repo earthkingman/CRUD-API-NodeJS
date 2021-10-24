@@ -16,4 +16,8 @@ router.get('/refresh', async (req: Request, res: Response, next: NextFunction) =
     await controller.refresh(req, res, next);
 })
 
+router.get('/logout', async (req: Request, res: Response, next: NextFunction) => {
+    await controller.logout(req, res, next);
+})
+
 export const authRouter: Router = router;

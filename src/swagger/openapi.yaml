@@ -123,7 +123,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Page"
         "404":
-          description: Page doesn't exist
+          description: Page not found
      
           
   /post:
@@ -147,7 +147,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Post"
         "404":
-          description: Post doesn't exist
+          description: Post not found
 
     post:
       summary: 게시글을 작성합니다.
@@ -163,8 +163,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Post"
         "404":
-          description: Post doesn't exist 
-    "401":
+          description: UserId not found 
+        "401":
           description: jwt must be provided 
 
     patch:
@@ -181,7 +181,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Post"
         "404":
-          description: Post doesn't exist 
+          description: Post not found 
         "401":
           description: jwt must be provided 
         "404":
@@ -206,7 +206,7 @@ paths:
         "401":
           description: jwt must be provided 
         "404":
-          description: Post doesn't exist
+          description: Post not found
         "404":
           description: You don't have edit permission
 
@@ -241,7 +241,7 @@ paths:
                   refreshToken:
                     type: string
         "404":
-          description: email doesn't exist
+          description: email not found
 
   /auth/logout:
     get:
@@ -252,4 +252,4 @@ paths:
         "200":
           description: OK
         "404":
-          description: user doesn't exist
+          description: user not found

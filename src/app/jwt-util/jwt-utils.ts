@@ -2,10 +2,7 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { UserService } from "../service/user.service"
 dotenv.config();
-
-
 export class Jwt {
-
     private secret;
 
     constructor() {

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { DecodedRequest } from '../definition/decoded_jwt'
+import { HttpException } from '../exception/http_exception';
 import { PostService } from "../service/post.service";
 
 export class PostController {
@@ -16,10 +17,7 @@ export class PostController {
                 data: exPost
             })
         } catch (error) {
-            return res.status(404).json({
-                result: false,
-                message: `An error occurred (${error.message})`
-            })
+            next(error)
         }
     }
     public async post(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
@@ -30,16 +28,11 @@ export class PostController {
             const postInfo = { userId, text, title }
             await this.postService.uploadPost(postInfo);
             return res.status(200).json({
-                result: true,
                 message: "Upload Success"
             })
         }
         catch (error) {
-            console.log(error);
-            return res.status(404).json({
-                result: false,
-                message: `An error occurred (${error.message})`
-            })
+            next(error)
         }
     }
 
@@ -51,14 +44,10 @@ export class PostController {
             const postInfo = { userId, postId };
             const exPost = await this.postService.deletePost(postInfo);
             return res.status(200).json({
-                result: true,
                 message: "Delete Success"
             })
         } catch (error) {
-            return res.status(404).json({
-                result: false,
-                message: `An error occurred (${error.message})`
-            })
+            next(error)
         }
     }
     public async patch(req: DecodedRequest, res: Response, next: NextFunction): Promise<any> {
@@ -70,14 +59,10 @@ export class PostController {
             const postInfo = { postId, text, title, userId }
             const exPost = await this.postService.updatePost(postInfo);
             return res.status(200).json({
-                result: true,
                 message: "Update Success"
             })
         } catch (error) {
-            return res.status(404).json({
-                result: false,
-                message: `An error occurred (${error.message})`
-            })
+            next(error)
         }
     }
 
