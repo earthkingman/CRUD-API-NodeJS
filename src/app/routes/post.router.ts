@@ -5,7 +5,7 @@ import { DecodedRequest } from '../definition/decoded_jwt'
 const router: Router = express.Router();
 const controller: PostController = new PostController();
 
-router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     await controller.get(req, res, next);
 });
 
@@ -13,11 +13,11 @@ router.post('/', authJwt, async (req: DecodedRequest, res: Response, next: NextF
     await controller.post(req, res, next);
 });
 
-router.patch('/:id', authJwt, async (req: DecodedRequest, res: Response, next: NextFunction) => {
+router.patch('/', authJwt, async (req: DecodedRequest, res: Response, next: NextFunction) => {
     await controller.patch(req, res, next);
 })
 
-router.delete('/:id', authJwt, async (req: DecodedRequest, res: Response, next: NextFunction) => {
+router.delete('/', authJwt, async (req: DecodedRequest, res: Response, next: NextFunction) => {
     await controller.delete(req, res, next);
 })
 
