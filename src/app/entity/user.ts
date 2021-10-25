@@ -1,7 +1,6 @@
-import { Entity, Column, BeforeInsert, BeforeUpdate, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { Entity, Column, OneToMany } from "typeorm";
 import { Base } from './base.entity';
 import { Post } from "./post"
-import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 @Entity()

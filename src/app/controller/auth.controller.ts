@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../entity/user';
-import { jwtUtil } from "../jwt-util/jwt-utils";
+import { HttpException } from '../exception/http_exception'
+import { AuthException } from '../exception/auth_exception';
+import { Jwt } from "../jwt-util/jwt-utils";
 import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 import passport from "passport";
@@ -9,6 +10,8 @@ import { UserService } from "../service/user.service";
 dotenv.config();
 export class AuthController {
     private userService: UserService;
+    private jwtutils: Jwt;
+
 
     public async signup(req: Request, res: Response, next: NextFunction): Promise<any> {
         this.userService = new UserService();
@@ -17,10 +20,7 @@ export class AuthController {
         try {
             const { exUser, newUser } = await this.userService.createUser({ email: email, password: encryptedPassword });
             if (exUser) {
-                return res.status(400).json({
-                    result: false,
-                    message: "duplicated email",
-                });
+                next(new HttpException(400, "Email duplicated"));
             }
             else {
                 const userInfo = {
@@ -35,22 +35,26 @@ export class AuthController {
             }
         }
         catch (error) {
-            console.log(error);
-            return res.status(400).json({
-                result: false,
-                message: `An error occurred (${error.message})`,
-            });
+            next(new HttpException(400, error.message));
         }
+    }
+
+    public async logout(req: Request, res: Response, next: NextFunction): Promise<any> {
+        await res.clearCookie('authorization')
+        return res.status(200).json({
+            message: "logout",
+        });
     }
 
     public async login(req: Request, res: Response, next: NextFunction): Promise<any> {
         passport.authenticate("local", async (authError, userId, info) => {
             this.userService = new UserService();
+            this.jwtutils = new Jwt();
             if (authError || userId == false) {
-                return res.status(400).json({ message: info.message });
+                next(new HttpException(400, info.message));;
             }
-            const accessToken = jwtUtil.accessSign(userId);
-            const refreshToken = jwtUtil.refreshSign();
+            const accessToken = this.jwtutils.accessSign(userId);
+            const refreshToken = this.jwtutils.refreshSign();
             const userInfo = { userId, refreshToken: refreshToken }
             await this.userService.loginRefreshToken(userInfo)
             res.cookie("refresh", refreshToken, {
@@ -62,7 +66,7 @@ export class AuthController {
                 httpOnly: true,
             });
             return res.status(200).json({
-                message: "로그인 성공 쿠키에 refreshToken, accessToken 저장 ",
+                message: "Success Login ",
             });
         })(req, res, next);
     }
@@ -70,25 +74,20 @@ export class AuthController {
     public async refresh(req: Request, res: Response, next: NextFunction): Promise<any> {
         const refresh_token = req.cookies.refresh;
         const access_token = req.cookies.authorization;
+        this.jwtutils = new Jwt();
         if (refresh_token && access_token) {
-            const authResult = jwtUtil.accessVerify(access_token);
+            const authResult = this.jwtutils.accessVerify(access_token);
             const decoded = jwt.decode(access_token);
             if (decoded === null) {
-                res.status(401).json({
-                    ok: false,
-                    message: 'No authorized'
-                })
+                next(new AuthException('No authorized'));
             }
-            const refreshResult = await jwtUtil.refreshVerify(refresh_token, decoded.id);
+            const refreshResult = await this.jwtutils.refreshVerify(refresh_token, decoded.id);
             if (authResult.ok === false && authResult.message === 'jwt expired') {
                 if (refreshResult === false) {
-                    res.status(401).json({
-                        ok: false,
-                        message: 'No authorized'
-                    })
+                    next(new AuthException('No authorized'));
                 }
                 else {
-                    const newAccesToken = jwtUtil.accessSign(decoded);
+                    const newAccesToken = this.jwtutils.accessSign(decoded);
                     res.cookie('authorization', newAccesToken, {
                         maxAge: 60000 * 30,
                         httpOnly: true
@@ -99,16 +98,11 @@ export class AuthController {
                 }
             }
             else {
-                res.status(400).json({
-                    message: 'Acess token is not expired!',
-                })
+                next(new HttpException(400, 'Acess token is not expired!'));
             }
         }
         else {
-            res.status(400).json({
-                ok: false,
-                message: 'Access token and refresh token are need for refresh!',
-            });
+            next(new HttpException(400, 'Access token and refresh token are need for refresh!'));
         }
     }
 
