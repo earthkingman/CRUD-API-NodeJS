@@ -7,6 +7,7 @@ import { applicationRouter } from './routes/applicationRouter';
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import passportConfig from "./passport";
+import { errorMiddleware } from "./middlewares/error.middleware"
 passportConfig();
 dotenv.config();
 
@@ -22,6 +23,7 @@ export class Application {
     this._server.use(bodyParser.urlencoded({ extended: true }));
     this._server.use(cookieParser());
     this._server.use(applicationRouter);
+    this._server.use(errorMiddleware)
   }
 
   public startServer(): void {
