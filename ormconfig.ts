@@ -7,6 +7,7 @@ export = {
   //database: ":memory:",
   synchronize: true,
   logging: false,
+  seeds: ['src/app/database/seeds/**/*.seed.ts'],
   entities: ["src/app/entity/**/*.ts"],
   migrations: ["src/app/migration/**/*.ts"],
   subscribers: ["src/app/subscriber/**/*.ts"],
