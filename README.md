@@ -42,16 +42,16 @@
 
 [SeedData](https://github.com/earthkingman/CRUD-API-NodeJS/wiki/SeedData)
 ### 3. 빌드 및 실행 방법
+- 파일명 변경 .env.sample ->  .env 
+```
+  mv .env.sample .env
+  ```
 - 명령어
    ```shell
    npm i
    npm run api-docs
    npm start
    ```
-- 파일명 변경 .env.sample ->  .env 
-```
-  mv .env.sample .env
-  ```
 - 접속
 
    http://localhost:3000/api-docs 
