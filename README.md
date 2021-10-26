@@ -50,7 +50,7 @@
    ```
 - 접속
 
-   localhost:3000/api-docs 
+   http://localhost:3000/api-docs 
 
 ### 4.개발 보고서
 [보고서](https://github.com/earthkingman/CRUD-API-NodeJS/wiki)
