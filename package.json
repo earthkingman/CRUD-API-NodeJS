@@ -4,7 +4,7 @@
    "description": "[위코드 x 원티드] 백엔드 프리온보딩 선발 과제]",
    "main": "index.js",
    "scripts": {
-      "test": "jest",
+      "seed":"ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
       "coverage": "jest --coverage",
       "build": "nodemon --watch '*.ts' --exec 'ts-node' src/app/index.ts",
       "start": "ts-node src/app/index.ts",
@@ -57,6 +57,7 @@
       "swagger-ui-express": "^4.1.6",
       "tsc-watch": "^4.5.0",
       "typeorm": "0.2.38",
+      "typeorm-seeding": "^1.6.1",
       "yamljs": "^0.3.0"
    }
 }
