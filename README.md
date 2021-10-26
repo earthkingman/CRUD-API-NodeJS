@@ -42,10 +42,15 @@
 
 [SeedData](https://github.com/earthkingman/CRUD-API-NodeJS/wiki/SeedData)
 ### 3. 빌드 및 실행 방법
-1. npm i
-2. npm run api-docs
-3. npm start
-4. localhost:3000/api-docs
+- 명령어
+   ```shell
+   npm i
+   npm run api-docs
+   npm start
+   ```
+- 접속
+
+   localhost:3000/api-docs 
 
 ### 4.개발 보고서
 [보고서](https://github.com/earthkingman/CRUD-API-NodeJS/wiki)
