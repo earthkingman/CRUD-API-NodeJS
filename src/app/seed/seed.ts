@@ -8,17 +8,17 @@ export const dataSeed = async (connection) => {
     const postRepository = connection.getRepository(Post);
     const encryptedPassword = await bcrypt.hashSync("1234", +process.env.SALT_ROUNDS);
     const user = new User();
-    user.email = "test@email.com"
+    user.email = "user@example.com"
     user.password = encryptedPassword;
     await userRepository.save(user);
 
     const user2 = new User();
-    user2.email = "test2@email.com"
+    user2.email = "user2@example.com"
     user2.password = encryptedPassword;
     await userRepository.save(user2);
 
     const user3 = new User();
-    user3.email = "test3@email.com"
+    user3.email = "user3@example.com"
     user3.password = encryptedPassword;
     await userRepository.save(user3);
 

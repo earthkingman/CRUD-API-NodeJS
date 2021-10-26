@@ -13,7 +13,7 @@ export class PageController {
             const postList = await this.pageService.getPostList(pageInfo);
             return res.status(200).json({
                 list: postList.postList,
-                count: postList.postCount
+                totalCount: postList.postCount
             });
         }
         catch (error) {
