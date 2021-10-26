@@ -48,9 +48,14 @@
    npm run api-docs
    npm start
    ```
+- 파일명 변경 .env.sample ->  .env 
+```
+  mv .env.sample .env
+  ```
 - 접속
 
    http://localhost:3000/api-docs 
 
 ### 4.개발 보고서
-[보고서](https://github.com/earthkingman/CRUD-API-NodeJS/wiki)
+
+ [보고서](https://github.com/earthkingman/CRUD-API-NodeJS/wiki)
