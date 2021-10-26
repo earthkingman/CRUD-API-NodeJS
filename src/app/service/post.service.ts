@@ -1,4 +1,3 @@
-
 import { getConnection, QueryRunner, Repository } from "typeorm";
 import { PostNotFoundException } from '../exception/post_not_found_exception';
 import { PermissionException } from '../exception/permission_exception';

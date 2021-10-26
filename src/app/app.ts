@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import passportConfig from "./passport";
 import { errorMiddleware } from "./middlewares/error.middleware"
+import { dataSeed } from "../app//db/seed";
 passportConfig();
 dotenv.config();
 
@@ -31,7 +32,7 @@ export class Application {
     const port: number = this._server.get('port');
     this._server.listen(port, host, () => {
       createConnection().then(async (connection) => {
-
+        dataSeed(connection);
       });
       console.log(`Server started at http://${host}:${port}`);
     });
