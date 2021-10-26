@@ -46,7 +46,7 @@
 ```
   mv .env.sample .env
   ```
-- 명령어
+- 명령어  (설치가 조금 오래 걸립니다. 조금만 기다려 주세요)
    ```shell
    npm i
    npm run api-docs
