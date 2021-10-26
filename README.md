@@ -25,6 +25,7 @@
 │         ├── middlewares
 │         ├── routes
 │         ├── passport
+|         ├── seed
 |         ├── exception
 |         ├── swagger
 │         ├── index.ts
