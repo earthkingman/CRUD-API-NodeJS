@@ -18,7 +18,11 @@ export class PostService {
 
     async selectPost(postId): Promise<any> {
         const post = await this.postRepository
-            .findOne({ where: { id: postId.id } });
+            .createQueryBuilder('post')
+            .select(['post', 'user.email'])
+            .innerJoin('post.user', 'user')
+            .where("post.id = :id", { id: postId.id })
+            .getOne();
         if (post === undefined) {
             throw new PostNotFoundException(String(postId));
         } else {
