@@ -44,7 +44,7 @@
 1. npm i
 2. npm run api-docs
 3. npm start
-4. localhost:5000/api-docs
+4. localhost:3000/api-docs
 
 ### 4.개발 보고서
 [보고서](https://github.com/earthkingman/CRUD-API-NodeJS/wiki)
