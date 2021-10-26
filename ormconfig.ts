@@ -3,8 +3,8 @@ dotenv.config();
 
 export = {
   type: "sqlite",
-  database: "database.sqlite",
-  //database: ":memory:",
+  //database: "database.sqlite",
+  database: ":memory:",
   synchronize: true,
   logging: false,
   seeds: ['src/app/database/seeds/**/*.seed.ts'],
