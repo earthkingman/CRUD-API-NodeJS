@@ -5,7 +5,7 @@
   - IDE : VsCode 
   - OS : MAC
   - Git
-- 웹서비스 개발환경
+- 웹 서버 어플리케이션 개발 환경
   - NodeJS
   - Express
   - TypeScript
@@ -40,6 +40,7 @@
 ### 3. API
 [API 명세서](https://app.swaggerhub.com/apis-docs/earthkingman/PreOnboardingCourse_CRUD_API/1.0.0#/)
 
+[SeedData](https://github.com/earthkingman/CRUD-API-NodeJS/wiki/SeedData)
 ### 3. 빌드 및 실행 방법
 1. npm i
 2. npm run api-docs
