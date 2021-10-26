@@ -36,6 +36,10 @@
 │── package-lock.json
 └── tsconfig.json 
 ``` 
+
+### 3. API
+[API 명세서](https://app.swaggerhub.com/apis-docs/earthkingman/PreOnboardingCourse_CRUD_API/1.0.0#/)
+
 ### 3. 빌드 및 실행 방법
 1. npm i
 2. npm run api-docs
