@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   title: 게시판 CRUD
   contact:
-    email: gypark@gmail.com
+    email: qkrskdjf@naver.com
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -26,6 +26,7 @@ components:
           format: email
         password:
           type: string
+          example: '1234'
     Page:
       properties:
         list:
@@ -66,9 +67,6 @@ components:
         application/json:
           schema:
             properties:
-              id:
-                type: integer
-                format: int64
               title:
                 type: string
               text:
@@ -118,7 +116,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Page'
         '404':
-          description: Page doesn't exist
+          description: Page not found
   /post:
     get:
       summary: 게시글을 반환합니다.
@@ -140,37 +138,51 @@ paths:
               schema:
                 $ref: '#/components/schemas/Post'
         '404':
-          description: Post doesn't exist
+          description: Post not found
     post:
-      summary: 게시글을 생성합니다.
+      summary: 게시글을 작성합니다.
       tags:
         - post
       requestBody:
         $ref: '#/components/requestBodies/createPost'
       responses:
         '200':
-          description: 게시글 요청 성공
+          description: 게시글 작성 성공
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
+        '401':
+          description: jwt must be provided
         '404':
-          description: Post doesn't exist
+          description: UserId not found
     patch:
-      summary: 게시글을 업데이트합니다.
+      summary: 게시글을 수정합니다.
       tags:
         - post
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: integer
+            format: int64
+          example: 1
+          required: true
       requestBody:
         $ref: '#/components/requestBodies/updatePost'
       responses:
         '200':
-          description: 게시글 업데이트 성공
+          description: 게시글 수정 성공
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Post'
+        '401':
+          description: jwt must be provided
+        '403':
+          description: You don't have edit permission
         '404':
-          description: Post doesn't exist
+          description: Post not found
     delete:
       summary: 게시글을 삭제합니다.
       tags:
@@ -186,8 +198,12 @@ paths:
       responses:
         '200':
           description: 게시글 삭제 성공
+        '401':
+          description: jwt must be provided
+        '403':
+          description: You don't have edit permission
         '404':
-          description: Post doesn't exist
+          description: Post not found
   /auth/signup:
     post:
       summary: 회원가입 합니다.
@@ -217,7 +233,7 @@ paths:
                   refreshToken:
                     type: string
         '404':
-          description: email doesn't exist
+          description: email not found
   /auth/logout:
     get:
       summary: 로그아웃 합니다.
@@ -227,4 +243,16 @@ paths:
         '200':
           description: OK
         '404':
-          description: user doesn't exist
+          description: user not found
+  /auth/refresh:
+    get:
+      summary: AccessToken 재발급
+      tags:
+        - auth
+      responses:
+        '400':
+          description: Access token is not expired! or Access token and refresh token are need for refresh!
+        '401':
+          description: No authorized
+        '404':
+          description: user not found

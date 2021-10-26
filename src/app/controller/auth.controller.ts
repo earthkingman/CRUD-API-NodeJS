@@ -51,7 +51,8 @@ export class AuthController {
             this.userService = new UserService();
             this.jwtutils = new Jwt();
             if (authError || userId == false) {
-                next(new HttpException(400, info.message));;
+                next(new HttpException(400, info.message));
+                return;
             }
             const accessToken = this.jwtutils.accessSign(userId);
             const refreshToken = this.jwtutils.refreshSign();
@@ -98,11 +99,11 @@ export class AuthController {
                 }
             }
             else {
-                next(new HttpException(400, 'Acess token is not expired!'));
+                next(new HttpException(400, 'Access token is not expired!'));
             }
         }
         else {
-            next(new HttpException(400, 'Access token and refresh token are need for refresh!'));
+            next(new HttpException(403, 'Access token and refresh token are need for refresh!'));
         }
     }
 
